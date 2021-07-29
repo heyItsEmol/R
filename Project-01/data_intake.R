@@ -3,16 +3,29 @@
 
 library(tidyverse)
 
-# read parks.csv
-df_parks <- read_csv("national_parks/parks.csv")
+# Data Intake ----
+# Observations
+df_observations <- read_csv("np_data/observations.csv")
+# Species Info
+df_species_info <- read_csv("np_data/species_info.csv")
+# Species
+df_species <- read_csv("np_data/species.csv")
+# Parks
+df_parks <- read_csv("np_data/parks.csv")
 
-# read species.csv
-df_species <- read_csv("national_parks/species.csv")
+# EDA ----
+df_joint_dataset <- df_species %>%
+  select(
+    scientific_name = "Scientific Name"
+    , common_name = "Common Names"
+    , occurence = "Occurrence"
+    , nativness = "Nativeness"
+    , abundance = "Abundance"
+    , conservaion_status = "Conservation Status"
+  ) %>%
+  right_join(
+    df_observations
+    , by = "scientific_name"
+  )
 
-# EDA
 
-# unique values of abundance
-
-df_species %>%
-  select(Abundance) %>%
-  unique()
